@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Driver Rankings</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 18px;
+      text-align: center;
+    }
+    th, td {
+      padding: 12px;
+      border: 1px solid #ddd;
+    }
+    th {
+      background-color: #f4f4f4;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+
+  <style>
+    .na {
+      color: gray;
+    }
+    .tq {
+      color: #01B2F0;
+    }
+  </style>
+</head>
+<body>
+<h1>Driver Rankings</h1>
+<table>
+  <thead>
+  <tr>
+    <th>Rank</th>
+    <th>Driver</th>
+    <th>Points</th>
+    <th>Total Points</th>
+    <th>Kickers</th>
+    <th>Best Points</th>
+    <th>Worst Points</th>
+    <th>Best Rank</th>
+    <th>Worst Rank</th>
+    <th>TQs</th>
+    <th>1st</th>
+    <th>2nd</th>
+    <th>3rd</th>
+    {% for i in range(completed) %}
+    <th>Round {{ i + 1 }}</th>
+    {% endfor %}
+  </tr>
+  </thead>
+  <tbody>
+  {% for driver in drivers %}
+  <tr>
+    <td>{{ driver.current_rank | ordinal }}</td>
+    <td>{{ driver.driver }}</td>
+    <td>{{ driver.current_points }}</td>
+    <td>{{ driver.total_points }}</td>
+    <td>{{ driver.kickers }}</td>
+    <td>{{ driver.best_possible_points }}</td>
+    <td>{{ driver.worst_possible_points }}</td>
+    <td>{{ driver.best_possible_rank | ordinal }}</td>
+    <td>{{ driver.worst_possible_rank | ordinal }}</td>
+    <td>{{ driver.tqs }}</td>
+    <td>{{ driver.current_position_counts[0] }}</td>
+    <td>{{ driver.current_position_counts[1] }}</td>
+    <td>{{ driver.current_position_counts[2] }}</td>
+    {% for result in driver.results %}
+    <td>
+      {% if result[1] %}
+      <span class="tq">{{ result[0] }}</span>
+      {% elif result[0] %}
+      <span>{{ result[0] }}</span>
+      {% else %}
+      <span class="na">N/A</span>
+      {% endif %}
+    </td>
+    {% endfor %}
+  </tr>
+  {% endfor %}
+  </tbody>
+</table>
+</body>
+</html>
